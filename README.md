@@ -18,7 +18,7 @@ Most CAPTCHAs rely on user interaction, accessibility-challenging image puzzles,
 - Respects privacy — no cookies or session tracking
 - Extremely fast to verify — 1 API roundtrip only
 - Pluggable in static, dynamic, and serverless environments
-- 💻 Looks and feels like familiar CAPTCHA widgets
+- Looks and feels like familiar CAPTCHA widgets
 
 It's especially useful for:
 - API throttling
@@ -31,7 +31,7 @@ It's especially useful for:
 
 > _"A CAPTCHA so minimal, it only needs math."_
 
-## 🔧 Tech Stack
+## Tech Stack
 
 - **Python** backend with **FastAPI**
 - **SHA256** / **BLAKE3** hashing
