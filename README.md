@@ -1,22 +1,44 @@
-# 🧠 NonceSense
+# NonceSense
+
+## What Is a PoW CAPTCHA?
+
+A **Proof-of-Work (PoW) CAPTCHA** is a challenge that requires a client (usually a browser) to solve a computational puzzle before proceeding — similar to how cryptocurrencies like Bitcoin validate transactions. Instead of identifying images or text, PoW CAPTCHAs prove that the client spent CPU effort to access a resource.
+
+This makes it harder for bots to abuse APIs or spam forms because they would need significant compute power to do so at scale.
+
+## Why NonceSense?
+
+Most CAPTCHAs rely on user interaction, accessibility-challenging image puzzles, or third-party tracking (like reCAPTCHA). **NonceSense**:
+
+- Runs entirely on your infrastructure — no Google dependencies
+- Respects privacy — no cookies or session tracking
+- Extremely fast to verify — 1 API roundtrip only
+- Pluggable in static, dynamic, and serverless environments
+- 💻 Looks and feels like familiar CAPTCHA widgets
+
+It's especially useful for:
+- API throttling
+- Form submission gating
+- Edge/serverless security
+- Bot deterrence for free/public resources
+
 
 **NonceSense** is a Proof-of-Work (PoW) CAPTCHA that uses cryptographic puzzles instead of image-based tests. Designed for bots to hate and devs to love — it’s fast, lightweight, and privacy-respecting.
 
-> _"Because common sense doesn’t work on bots — so we use nonce sense."_ 🔐
-
----
+> _"A CAPTCHA so minimal, it only needs math."_
 
 ## 🔧 Tech Stack
 
-- ⛓️ **Python** backend with **FastAPI**
-- 🔐 **SHA256** / **BLAKE3** hashing
-- 🌐 REST API for challenge issuance and verification
-- 💾 **Valkey** (Redis-compatible open source fork) for temporary challenge tracking
-- 💡 **WASM**-powered PoW solver on the frontend
+- **Python** backend with **FastAPI**
+- **SHA256** / **BLAKE3** hashing
+- REST API for challenge issuance and verification
+- **Valkey** (Redis-compatible open source fork) for temporary challenge tracking
+- **WASM**-powered PoW solver on the frontend
+- **JavaScript fallback** for older browsers
+- **React widget** styled like Google CAPTCHA
+- **.env-based rate limiting**, dynamic difficulty, and expiration feedback
 
----
-
-## ⚙️ How It Works
+## How It Works
 
 1. Client requests a challenge from the API
 2. Server returns a challenge string + required difficulty
@@ -24,45 +46,57 @@
    `hash(challenge + nonce)` starts with `n` zeroes
 4. Server verifies the hash and grants access if valid
 
----
+## Quickstart
 
-## 🚀 Quickstart
+### Local Development Setup
 
-### 🐍 Backend (FastAPI)
+You can either use Docker Compose for convenience or start each service manually.
+
+#### Option 1: Docker Compose (recommended)
 
 ```bash
 git clone https://github.com/babanomania/NonceSense.git
-cd noncesense/backend
+cd noncesense
 
+# Start backend, frontend, and Valkey together
+docker-compose up --build
+```
+
+#### Option 2: Manual Setup
+
+Make sure your `.env` file is in place for the backend, with entries like:
+
+```env
+VALKEY_URL=redis://localhost:6379/0
+POW_DIFFICULTY=4
+CHALLENGE_TTL=120
+RATE_LIMIT=10
+RATE_WINDOW=60
+```
+
+Run each service individually:
+
+```bash
+# Valkey
+docker run -p 6379:6379 valkey/valkey
+
+# Backend
+cd backend
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
-# Run API server
-uvicorn app.main:app --reload
-````
-
-### 🗄 Valkey (instead of Redis)
-
-Install and run Valkey:
-
-```bash
-docker run -p 6379:6379 valkey/valkey
+# Frontend (Static HTML + JS)
+cd ../frontend
+python3 -m http.server 3000
 ```
 
-Configure your `.env` or `config.py`:
+Then access the frontend at [http://localhost:3000](http://localhost:3000) and backend at [http://localhost:8000](http://localhost:8000).
 
-```python
-VALKEY_URL = "redis://localhost:6379/0"
-```
+## API Endpoints
 
-*Valkey uses the same protocol and Python clients as Redis, so no code changes needed.*
-
----
-
-## 📬 API Endpoints
-
-### 🔑 `POST /challenge`
+### `POST /challenge`
 
 Returns a new challenge:
 
@@ -74,7 +108,7 @@ Returns a new challenge:
 }
 ```
 
-### ✅ `POST /verify`
+### `POST /verify`
 
 Submit your solution:
 
@@ -95,34 +129,57 @@ Response:
 }
 ```
 
----
-
-## 💻 Frontend (WASM Solver)
+## Frontend (WASM Solver)
 
 Client computes PoW in-browser using:
 
-* WebAssembly (Rust or AssemblyScript)
-* Fallback to JavaScript for unsupported browsers
-* Nonce discovery loop with hash feedback
+- WebAssembly (Rust-based solver)
+- Fallback to JavaScript for legacy support
+- React component (`<NonceCaptcha />`) styled like Google CAPTCHA
+- Spinner, error states, refresh button, and expiration messages
+
+## Pluggable React Widget
+
+The sample React project is located in:
+
+```bash
+frontend/react-example
+```
+
+You can try it locally:
+
+```bash
+cd frontend/react-example
+npm install
+npm run dev
+```
+
+Then use the widget like this:
+
+```tsx
+<NonceCaptcha
+  apiUrl="https://your-backend-url"
+  onVerify={({ challenge, nonce }) => console.log("Verified!", challenge, nonce)}
+/>
+```
+
+Optional offline mode coming soon.
 
 ---
 
-## 🔮 Roadmap
+## Roadmap
 
-* [ ] Dynamic difficulty scaling
-* [ ] Challenge expiration feedback
-* [ ] Plug-in frontend widget (React/Vue/Svelte)
-* [ ] Offline verification for serverless use cases
+- [x] Dynamic difficulty scaling
+- [x] Challenge expiration feedback
+- [x] Plug-in frontend widget (React)
+- [x] WASM + JS fallback solver
+- [x] Rate limiting via .env
+- [ ] Offline verification for serverless use cases
+- [ ] Vue/Svelte wrapper
 
 ---
 
-## 📄 License
+## License
 
 MIT License — use it freely, break bots peacefully.
 
----
-
-## ✨ Credits
-
-Created by [Shouvik Basu](https://github.com/babanomania)
-Built with Python, hash power, and a whole lot of **NonceSense**.
