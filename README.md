@@ -2,6 +2,10 @@
 
 ## What Is a PoW CAPTCHA?
 
+<p align="left">
+  <img src="screenshot.png" alt="NonceSense Screenshot" width="600" />
+</p>
+
 A **Proof-of-Work (PoW) CAPTCHA** is a challenge that requires a client (usually a browser) to solve a computational puzzle before proceeding — similar to how cryptocurrencies like Bitcoin validate transactions. Instead of identifying images or text, PoW CAPTCHAs prove that the client spent CPU effort to access a resource.
 
 This makes it harder for bots to abuse APIs or spam forms because they would need significant compute power to do so at scale.
