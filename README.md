@@ -23,6 +23,12 @@ Most CAPTCHAs rely on invasive tracking, third-party APIs, or inaccessible image
 
 > _"A CAPTCHA so minimal, it only needs math."_
 
+## What is a PoW CAPTCHA?
+
+A **Proof-of-Work (PoW) CAPTCHA** is a challenge that requires a client (usually a browser) to solve a computational puzzle before proceeding — similar to how cryptocurrencies like Bitcoin validate transactions. Instead of identifying images or text, PoW CAPTCHAs prove that the client spent CPU effort to access a resource.
+
+This makes it harder for bots to abuse APIs or spam forms because they would need significant compute power to do so at scale.
+
 ## Tech Stack
 
 - **Python** backend with **FastAPI**
