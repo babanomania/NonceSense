@@ -1,7 +1,5 @@
 # NonceSense
 
-## Why NonceSense?
-
 <p align="left">
   <img src="screenshot.png" alt="NonceSense Screenshot" width="600" />
 </p>
