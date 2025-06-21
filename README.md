@@ -1,31 +1,25 @@
 # NonceSense
 
-## What Is a PoW CAPTCHA?
+## Why NonceSense?
 
 <p align="left">
   <img src="screenshot.png" alt="NonceSense Screenshot" width="600" />
 </p>
 
-A **Proof-of-Work (PoW) CAPTCHA** is a challenge that requires a client (usually a browser) to solve a computational puzzle before proceeding — similar to how cryptocurrencies like Bitcoin validate transactions. Instead of identifying images or text, PoW CAPTCHAs prove that the client spent CPU effort to access a resource.
+Most CAPTCHAs rely on invasive tracking, third-party APIs, or inaccessible image-based tests. **NonceSense** is built differently — with a **privacy-first, self-hostable** approach:
 
-This makes it harder for bots to abuse APIs or spam forms because they would need significant compute power to do so at scale.
+* 100% self-hosted — no Google or external services
+* No tracking, no cookies, no user data collection
+* Verifies in one lightweight API roundtrip
+* Based on open cryptographic puzzles, not proprietary scoring
+* Clean, familiar UI — feels like a modern CAPTCHA without surveillance
 
-## Why NonceSense?
+**Ideal for protecting:**
 
-Most CAPTCHAs rely on user interaction, accessibility-challenging image puzzles, or third-party tracking (like reCAPTCHA). **NonceSense**:
-
-- Runs entirely on your infrastructure — no Google dependencies
-- Respects privacy — no cookies or session tracking
-- Extremely fast to verify — 1 API roundtrip only
-- Pluggable in static, dynamic, and serverless environments
-- Looks and feels like familiar CAPTCHA widgets
-
-It's especially useful for:
-- API throttling
-- Form submission gating
-- Edge/serverless security
-- Bot deterrence for free/public resources
-
+* Public APIs from abuse
+* Contact and signup forms
+* Serverless or edge functions
+* Any app where privacy and security matter
 
 **NonceSense** is a Proof-of-Work (PoW) CAPTCHA that uses cryptographic puzzles instead of image-based tests. Designed for bots to hate and devs to love — it’s fast, lightweight, and privacy-respecting.
 
